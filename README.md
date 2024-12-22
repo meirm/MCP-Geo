@@ -89,11 +89,10 @@ fastmcp install geo.py --name "MCP Geo"
 
 ### Option 2: Install elsewhere
 
-To use this server with the [Cline VSCode plugin](http://cline.bot):
+To use this server anywhere else:
 
-1. In VSCode, click the server icon (☰) in the Cline plugin sidebar
-2. Click the "Edit MCP Settings" button (✎)
-3. Add the following configuration to the settings file:
+
+1. Add the following configuration to the settings file:
 
 ```json
 {
