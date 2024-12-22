@@ -41,29 +41,29 @@ This MCP server provides the following geocoding tools to Large Language Models 
 
 ### geocode_location
 
-	•	Takes a user-provided address or place name and returns the best match’s latitude, longitude, and formatted address.
+- Takes a user-provided address or place name and returns the best match’s latitude, longitude, and formatted address.
 
-	•	Handles errors gracefully and returns None if the location is not found or if an error occurs.
+- Handles errors gracefully and returns None if the location is not found or if an error occurs.
 
 ### reverse_geocode
 
-	•	Takes a latitude and longitude and returns the nearest address.
-	•	Useful for finding descriptive information about a point on the map.
+- Takes a latitude and longitude and returns the nearest address.
+- Useful for finding descriptive information about a point on the map.
 
 ### geocode_with_details
 
-	•	Similar to geocode_location but returns additional data such as bounding boxes and more detailed address info, if supported by the geocoder.
+- Similar to geocode_location but returns additional data such as bounding boxes and more detailed address info, if supported by the geocoder.
 
 ### geocode_multiple_locations
 
-	•	Accepts a list of address strings and returns a list of geocoding results (lat/lon/address) for each address.
+- Accepts a list of address strings and returns a list of geocoding results (lat/lon/address) for each address.
 
-	•	Rate-limited to avoid hitting geocoding service quotas.
+- Rate-limited to avoid hitting geocoding service quotas.
 
 ### reverse_geocode_multiple_locations
 
-	•	Accepts a list of [lat, lon] pairs to perform reverse geocoding for each.
-	•	Returns a list of dictionaries containing lat, lon, and address or None for unsuccessful lookups, also rate-limited.
+- Accepts a list of [lat, lon] pairs to perform reverse geocoding for each.
+- Returns a list of dictionaries containing lat, lon, and address or None for unsuccessful lookups, also rate-limited.
 
 ## 🚀 Getting Started
 
