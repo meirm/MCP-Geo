@@ -2,6 +2,7 @@ from geopy.geocoders import Nominatim, ArcGIS, Bing
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
 import os
 from geopy.extra.rate_limiter import RateLimiter
+from geopy.distance import distance
 from fastmcp import FastMCP
 
 '''how to use this code
@@ -202,3 +203,63 @@ def reverse_geocode_multiple_locations(coords: list[list[float]]) -> list[dict |
             results.append(None)
 
     return results
+
+
+@mcp.tool()
+def distance_between_addresses(address1: str, address2: str, unit: str = "kilometers") -> float | None:
+    """
+    Calculate the distance between two addresses or place names.
+
+    :param address1: The first address or place name.
+    :param address2: The second address or place name.
+    :param unit: "kilometers" (default) or "miles".
+
+    Returns the distance in the specified unit, or None if either address could not be geocoded.
+    """
+    # Geocode both addresses
+    loc1 = geocode.geocode(address1)
+    loc2 = geocode.geocode(address2)
+
+    if not loc1 or not loc2:
+        # If we couldn't geocode either one, return None
+        return None
+
+    # Extract lat/lon for each location
+    coords1 = (loc1.latitude, loc1.longitude)
+    coords2 = (loc2.latitude, loc2.longitude)
+
+    # Calculate geodesic distance
+    distance = distance(coords1, coords2)
+    
+    # Return in the specified unit
+    if unit.lower() == "miles":
+        return distance.miles
+    else:
+        # Default is kilometers
+        return distance.kilometers
+
+
+@mcp.tool()
+def distance_between_coords(
+    lat1: float, lon1: float, lat2: float, lon2: float, unit: str = "kilometers"
+) -> float:
+    """
+    Calculate the distance between two lat/lon pairs.
+
+    :param lat1: Latitude of the first location.
+    :param lon1: Longitude of the first location.
+    :param lat2: Latitude of the second location.
+    :param lon2: Longitude of the second location.
+    :param unit: "kilometers" (default) or "miles".
+
+    Returns the distance in the specified unit.
+    """
+    coords1 = (lat1, lon1)
+    coords2 = (lat2, lon2)
+
+    distance = distance(coords1, coords2)
+    
+    if unit.lower() == "miles":
+        return distance.miles
+    else:
+        return distance.kilometers
