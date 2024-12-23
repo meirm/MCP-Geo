@@ -81,7 +81,7 @@ cd MCP-Geo
 
 ## 📦 Installation Options
 
-You can install this MCP server in either Claude Desktop or the Cline VSCode plugin. Choose the option that best suits your needs.
+You can install this MCP server in either Claude Desktop or elsewhere. Choose the option that best suits your needs.
 
 ### Option 1: Install for Claude Desktop
 
