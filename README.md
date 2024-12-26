@@ -61,13 +61,25 @@ This MCP server provides the following geocoding tools to Large Language Models 
 ### geocode_multiple_locations
 
 - Accepts a list of address strings and returns a list of geocoding results (lat/lon/address) for each address.
-
 - Rate-limited to avoid hitting geocoding service quotas.
 
 ### reverse_geocode_multiple_locations
 
 - Accepts a list of [lat, lon] pairs to perform reverse geocoding for each.
 - Returns a list of dictionaries containing lat, lon, and address or None for unsuccessful lookups, also rate-limited.
+
+### distance_between_addresses
+
+- Calculate the distance between two addresses or place names.
+- accepts 2 addresses and a unit of measurement (miles/kilometer)
+- Returns the distance in the specified unit, or None if either address could not be geocoded.
+
+### distance_between_coords
+
+- Calculate the distance between two lat/lon pairs.
+- accepts 2 pairs of latitude and longitude and a unit of measurement (kilometer/miles)
+- Returns the distance in the specified unit.
+
 
 ## 🚀 Getting Started
 
