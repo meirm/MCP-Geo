@@ -117,7 +117,6 @@ To use this server anywhere else:
 }
 ```
 
-Replace `/path/to/repo` with the full path to where you cloned this repository (e.g., `/Users/username/Projects/imessage-query-fastmcp-mcp-server`)
 
 🔒 Safety Features
 	•	Rate Limiting: Each geocoding call is rate-limited (e.g., 1-second delay) to avoid excessive requests that violate usage limits.
