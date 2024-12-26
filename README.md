@@ -3,7 +3,7 @@ Geocoding MCP server with GeoPY!
 
 
 <a href="https://glama.ai/mcp/servers/ujss4qy5fs">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/ujss4qy5fs/badge" />
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/ujss4qy5fs/badge?v=1" />
 </a>
 
 ## 📋 System Requirements
