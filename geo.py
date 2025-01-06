@@ -5,6 +5,9 @@ from geopy.extra.rate_limiter import RateLimiter
 from geopy.distance import distance
 from fastmcp import FastMCP
 
+
+__version__ = "0.1.0"
+
 '''how to use this code
 uv pip install -r requirements.txt
 add to mcp server config

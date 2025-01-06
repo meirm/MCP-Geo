@@ -16,8 +16,8 @@ Geocoding MCP server with GeoPY!
 Install all required dependencies:
 
 ```bash
-# Using pip
-uv pip install -r requirements.txt
+# Using uv
+uv sync
 ```
 
 ### Required Packages
