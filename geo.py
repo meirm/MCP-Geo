@@ -3,7 +3,7 @@ from geopy.exc import GeocoderTimedOut, GeocoderServiceError
 import os
 from geopy.extra.rate_limiter import RateLimiter
 from geopy.distance import distance
-from fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
 
 
 __version__ = "0.1.0"

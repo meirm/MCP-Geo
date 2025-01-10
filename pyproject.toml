@@ -5,8 +5,8 @@ description = "Geocoding MCP server with GeoPY!"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "fastmcp>=0.4.1",
     "geopy>=2.4.1",
+    "mcp[cli]>=1.2.0",
 ]
 
 
