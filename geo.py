@@ -18,8 +18,8 @@ add to mcp server config
         "args": [
         "run",
         "--with",
-        "fastmcp",
-        "fastmcp",
+        "mcp",
+        "mcp",
         "run",
         "MCP-Geo/geo.py"
         ],
@@ -266,3 +266,6 @@ def distance_between_coords(
         return distance.miles
     else:
         return distance.kilometers
+
+if __name__ == "__main__":
+    mcp.run()
