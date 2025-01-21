@@ -16,12 +16,10 @@ add to mcp server config
     "mcp-geo": {
         "command": "uv",
         "args": [
-        "run",
-        "--with",
-        "mcp",
-        "mcp",
-        "run",
-        "MCP-Geo/geo.py"
+          "--directory",
+          "MCP-Geo",
+          "run",
+          "geo.py"
         ],
         "env": {
         "NOMINATIM_URL": "${NOMINATIM_URL}",

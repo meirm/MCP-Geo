@@ -115,15 +115,15 @@ To use this server anywhere else:
     "mcp-geo": {
         "command": "uv",
         "args": [
-        "run",
-        "--with",
-        "fastmcp",
-        "fastmcp",
-        "run",
-        "MCP-Geo/geo.py"
+          "--directory",
+          "MCP-Geo",
+          "run",
+          "geo.py"
         ],
         "env": {
-        "NOMINATIM_URL": "nominatim.openstreetmap.org"
+        "NOMINATIM_URL": "${NOMINATIM_URL}",
+        "SCHEME": "http",
+        "GEOCODER_PROVIDER": "nominatim"
         }
     }
 }
