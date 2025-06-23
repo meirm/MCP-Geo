@@ -273,7 +273,7 @@ def distance_between_coords(
 @click.option("--port", type=int, default=8000)
 def main(transport: str, host: str, port: int):
     if transport == "sse":
-        mcp.run(transport=transport, host=host, port=port)
+        mcp.run(transport=transport) #, host=host, port=port)
     else:
         mcp.run(transport=transport)
 
