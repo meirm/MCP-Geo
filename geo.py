@@ -268,14 +268,19 @@ def distance_between_coords(
 
 
 @click.command()
-@click.option("--transport", type=click.Choice(["stdio", "sse"]), default="stdio")
+@click.option("--transport", type=click.Choice(["stdio", "sse","http"]), default="stdio")
 @click.option("--host", type=str, default="0.0.0.0")
 @click.option("--port", type=int, default=8000)
 def main(transport: str, host: str, port: int):
     if transport == "sse":
-        mcp.run(transport=transport) #, host=host, port=port)
+        mcp.run(transport="sse")
+    elif transport == "http":
+        mcp.run(transport="http", host=host, port=port, path="/mcp")
+    elif transport == "stdio":
+        mcp.run(transport="stdio")
     else:
-        mcp.run(transport=transport)
+        print(f"Invalid transport: {transport}")
+        exit(1)
 
 if __name__ == "__main__":
     main()
