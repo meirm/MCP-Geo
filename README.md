@@ -35,6 +35,7 @@ All dependencies are specified in `requirements.txt` for easy installation.
 - [Installation Options](#-installation-options)
   - [Claude Desktop](#option-1-install-for-claude-desktop)
   - [Elsewhere](#option-2-install-elsewhere)
+- [Running geo.py Directly (Command Line)](#️-running-geo.py-directly-command-line)
 - [Safety Features](#-safety-features)
 - [Development Documentation](#-development-documentation)
 - [Environment Variables](#%EF%B8%8F-environment-variables)
@@ -45,7 +46,7 @@ This MCP server provides the following geocoding tools to Large Language Models 
 
 ### geocode_location
 
-- Takes a user-provided address or place name and returns the best match’s latitude, longitude, and formatted address.
+- Takes a user-provided address or place name and returns the best match's latitude, longitude, and formatted address.
 
 - Handles errors gracefully and returns None if the location is not found or if an error occurs.
 
@@ -121,8 +122,8 @@ To use this server anywhere else:
           "geo.py"
         ],
         "env": {
-        "NOMINATIM_URL": "${NOMINATIM_URL}",
-        "SCHEME": "http",
+        "NOMINATIM_URL": "nominatim.openstreetmap.org",
+        "SCHEME": "https",
         "GEOCODER_PROVIDER": "nominatim"
         }
     }
@@ -136,10 +137,10 @@ To use this server anywhere else:
 
 📚 Development Documentation
 
-If you’d like to extend or modify this server:
+If you'd like to extend or modify this server:
 	•	Check geo.py for how each tool is implemented and how geopy is integrated.
 	•	Adjust environment variables to switch providers (Nominatim, ArcGIS, Bing, etc.).
-	•	Look at geopy’s official docs for advanced usage like bounding boxes, language settings, or advanced data extraction.
+	•	Look at geopy's official docs for advanced usage like bounding boxes, language settings, or advanced data extraction.
 
 ⚙️ Environment Variables
 
@@ -149,9 +150,51 @@ Configure the server using environment variables:
  |----------------------|------------------------------------------|--------------------|
 | `GEOCODER_PROVIDER` (optional)   | "nominatim", "arcgis", or "bing"     | nominatim          |
 | `NOMINATIM_URL` (optional)       | Domain for Nominatim | nominatim.openstreetmap.org       |
-| `SCHEME` (optional)              | http/https    | http               |
+| `SCHEME` (optional)              | http/https    | https               |
 | `ARC_USERNAME` (optional for ArcGIS)        | ArcGIS username            | None               |
 | `ARC_PASSWORD` (optional for ArcGIS)        | ArcGIS password      | None               |
 | `BING_API_KEY` (required for Bing)        | Your Bing Maps key.      | None               |
 
 These can be set in your shell or in the MCP settings file for your environment. If more are needed just edit geo.py and add them in to whichever geocoder you are using.
+
+## ▶️ Running geo.py Directly (Command Line)
+
+You can also run the MCP-Geo server directly from the command line using Python and the available options provided by [Click](https://click.palletsprojects.com/):
+
+```bash
+python geo.py [OPTIONS]
+```
+
+### Available Options
+
+- `--transport`  
+  Choose the server transport method. Options: `stdio` (default), `sse`.
+  - `stdio`: Communicates over standard input/output (default, suitable for most use cases).
+  - `sse`: Runs as a server using Server-Sent Events (SSE), useful for web integrations.
+
+- `--host`  
+  Host address to bind to (only relevant if using `--transport sse`).  
+  Default: `0.0.0.0`
+
+- `--port`  
+  Port to listen on (only relevant if using `--transport sse`).  
+  Default: `8000`
+
+### Example Commands
+
+Run with default settings (stdio):
+```bash
+python geo.py
+```
+
+Run as an SSE server on the default port:
+```bash
+python geo.py --transport sse
+```
+
+Run as an SSE server on a custom host and port:
+```bash
+python geo.py --transport sse --host 127.0.0.1 --port 9000
+```
+
+You can still set environment variables (like `GEOCODER_PROVIDER`, `NOMINATIM_URL`, etc.) as described below to control which geocoding provider is used.

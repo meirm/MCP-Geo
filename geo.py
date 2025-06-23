@@ -1,6 +1,7 @@
 from geopy.geocoders import Nominatim, ArcGIS, Bing
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
 import os
+import click
 from geopy.extra.rate_limiter import RateLimiter
 from geopy.distance import distance
 from mcp.server.fastmcp import FastMCP
@@ -43,9 +44,9 @@ geocoder_name = os.environ.get("GEOCODER_PROVIDER", "nominatim").lower()
 if geocoder_name == "nominatim":
     # For Nominatim, read the domain from NOMINATIM_URL or default to openstreetmap
     domain = os.environ.get("NOMINATIM_URL", "nominatim.openstreetmap.org")
-    scheme = os.environ.get("SCHEME", "http")
+    scheme = os.environ.get("SCHEME", "https")
     # If you need https, set scheme='https'
-    app = Nominatim(domain=domain, scheme=scheme)
+    app = Nominatim(domain=domain, scheme=scheme, user_agent="mcp-geo/0.1.0")
 elif geocoder_name == "arcgis":
     # ArcGIS typically just works; optionally pass username/password or referer
     # if needed for premium data.
@@ -76,7 +77,7 @@ def geocode_location(location_str: str) -> dict | None:
     Returns {'latitude', 'longitude', 'address'} or None if not found.
     """
     try:
-        location = geocode.geocode(location_str)
+        location = geocode(location_str)
         if not location:
             return None
         return {
@@ -96,7 +97,7 @@ def reverse_geocode(lat: float, lon: float) -> dict | None:
     Returns {'latitude', 'longitude', 'address'} or None if not found.
     """
     try:
-        location = reverse.reverse((lat, lon))
+        location = reverse((lat, lon))
         if not location:
             return None
         return {
@@ -148,7 +149,7 @@ def geocode_multiple_locations(location_strs: list[str]) -> list[dict | None]:
     results = []
     for loc_str in location_strs:
         try:
-            location = geocode.geocode(loc_str)
+            location = geocode(loc_str)
             if not location:
                 results.append(None)
             else:
@@ -190,7 +191,7 @@ def reverse_geocode_multiple_locations(coords: list[list[float]]) -> list[dict |
 
         lat, lon = latlon
         try:
-            location = reverse.reverse((lat, lon))
+            location = reverse((lat, lon))
             if not location:
                 results.append(None)
             else:
@@ -218,8 +219,8 @@ def distance_between_addresses(address1: str, address2: str, unit: str = "kilome
     Returns the distance in the specified unit, or None if either address could not be geocoded.
     """
     # Geocode both addresses
-    loc1 = geocode.geocode(address1)
-    loc2 = geocode.geocode(address2)
+    loc1 = geocode(address1)
+    loc2 = geocode(address2)
 
     if not loc1 or not loc2:
         # If we couldn't geocode either one, return None
@@ -230,14 +231,14 @@ def distance_between_addresses(address1: str, address2: str, unit: str = "kilome
     coords2 = (loc2.latitude, loc2.longitude)
 
     # Calculate geodesic distance
-    distance = distance(coords1, coords2)
+    dist = distance(coords1, coords2)
     
     # Return in the specified unit
     if unit.lower() == "miles":
-        return distance.miles
+        return dist.miles
     else:
         # Default is kilometers
-        return distance.kilometers
+        return dist.kilometers
 
 
 @mcp.tool()
@@ -258,12 +259,23 @@ def distance_between_coords(
     coords1 = (lat1, lon1)
     coords2 = (lat2, lon2)
 
-    distance = distance(coords1, coords2)
+    dist = distance(coords1, coords2)
     
     if unit.lower() == "miles":
-        return distance.miles
+        return dist.miles
     else:
-        return distance.kilometers
+        return dist.kilometers
+
+
+@click.command()
+@click.option("--transport", type=click.Choice(["stdio", "sse"]), default="stdio")
+@click.option("--host", type=str, default="0.0.0.0")
+@click.option("--port", type=int, default=8000)
+def main(transport: str, host: str, port: int):
+    if transport == "sse":
+        mcp.run(transport=transport, host=host, port=port)
+    else:
+        mcp.run(transport=transport)
 
 if __name__ == "__main__":
-    mcp.run()
+    main()
